@@ -20,14 +20,19 @@ let g:loaded_nerdtree_ack = 1
 
 " add the new menu item via NERD_Tree's API
 call NERDTreeAddMenuItem({
-    \ 'text': 'search files, case s(e)nsitive',
+    \ 'text': 's(e)arch files with ack',
     \ 'shortcut': 'e',
+    \ 'callback': 'NERDTreeAck' })
+
+call NERDTreeAddMenuItem({
+    \ 'text': '(s)earch files, case sensitive',
+    \ 'shortcut': 's',
     \ 'callback': 'NERDTreeAckSensitive' })
 
 call NERDTreeAddMenuItem({
-    \ 'text': '(s)earch files, case insensitive',
-    \ 'shortcut': 's',
-    \ 'callback': 'NERDTreeAck' })
+    \ 'text': '(s)earch C/C++ files, case sensitive',
+    \ 'shortcut': 'q',
+    \ 'callback': 'NERDTreeAckCCPP' })
 
 function! NERDTreeAck()
     " get the current dir from NERDTree
@@ -39,7 +44,7 @@ function! NERDTreeAck()
         echo 'Maybe another time...'
         return
     endif
-    exec "Ack! -i '".pattern."' '".cd."'"
+    exec "Ack! ".pattern." '".cd."'"
 endfunction
 
 function! NERDTreeAckSensitive()
@@ -53,4 +58,17 @@ function! NERDTreeAckSensitive()
         return
     endif
     exec "Ack! '".pattern."' ".cd
+endfunction
+
+function! NERDTreeAckCCPP()
+    " get the current dir from NERDTree
+    let cd = g:NERDTreeDirNode.GetSelected().path.str()
+
+    " get the pattern
+    let pattern = input("Enter the pattern: ")
+    if pattern == ''
+        echo 'Maybe another time...'
+        return
+    endif
+    exec "Ack! --cc --cpp '".pattern."' ".cd
 endfunction
