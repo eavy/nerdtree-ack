@@ -30,7 +30,7 @@ call NERDTreeAddMenuItem({
     \ 'callback': 'NERDTreeAckSensitive' })
 
 call NERDTreeAddMenuItem({
-    \ 'text': '(s)earch C/C++ files, case sensitive',
+    \ 'text': '(q)search c/cpp files, case sensitive',
     \ 'shortcut': 'q',
     \ 'callback': 'NERDTreeAckCCPP' })
 
